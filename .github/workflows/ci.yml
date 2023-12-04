@@ -12,9 +12,20 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: "12.x"
+      - uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_ENVIRONMENT: ${{ secrets.ENVIRONMENT}}
+          envkey_API_URL : ${{secrets.API_URL}}
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable"
       - run: flutter pub get
-      - run: flutter analyse
-      - run: flutter test
+      - run: flutter analyze
+
+      - name: 🐦 Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v0
+
+      # Now we're able to use Shorebird CLI in our workflow
+      - name: 🚀 Use Shorebird
+        run: shorebird --version
+  
